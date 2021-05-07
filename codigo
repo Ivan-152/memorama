@@ -1,0 +1,170 @@
+"Iván Gutiérrez Hernández"
+"A00827382"
+"Abraham Mora"
+"A01067621"
+
+"Reflexión - que aprendieron?"
+
+"Fecha - 7 - Mayo - 2021"
+
+
+from random import *
+from turtle import *
+from freegames import path
+
+car = path('car.gif') # Para regresar un gif. Este archivo es parte de la libreria freegames
+tiles = list(range(32))*2 # Es la lista de las cartas para el memorama. Se multiplica por 2 para tener los pares
+tiles = 'A-B-C-D-E-F-G-H-I-J-K-L-M-N-O-P-Q-R-S-T-U-V-W-X-Y-Z-AA-EE-II-OO-UU'
+tiles= tiles.split('-')
+tiles= ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','e','i','o','u']
+tiles= tiles*2
+print(tiles)
+taps=0
+writer= Turtle(visible=False)
+
+state = {'mark': None}
+hide = [True] * 64 # Tenemos 64 veces el argumento True, osea, estan escondidas
+
+"Funcion Square"
+
+def square(x, y):
+    "Draw white square with black outline at (x, y)."
+    up() # Para levantar el lapiz
+    goto(x, y) # El lapiz se va a esa posición
+    down() # Empezar a dibujar
+    color('black', 'white') #Colores
+    begin_fill() #Decimos desde aqui que queremos rellenar
+    for count in range(4): #Para hacer las cartas
+        forward(50)
+        left(90)
+    end_fill() #Rellenamos finalmente
+
+"Funcion index"
+def index(x, y):
+    "Convert (x, y) coordinates to tiles index."
+    #Retorna el indice correspondiente a (x,y) a una posición de la carta en la lista
+    return int((x + 200) // 50 + ((y + 200) // 50) * 8) 
+
+"Función xy"
+def xy(count):
+    "Convert tiles count to (x, y) coordinates."
+    # Convierte la posición de la carta de la lista a las coordenadas inf. izq. para su dibujo
+    return (count % 8) * 50 - 200, (count // 8) * 50 - 200
+
+"Funcion Tap"
+def tap(x, y):
+    global mark, taps
+    
+    #imprime las coordenadas donde se dió el click
+    print(x,y)
+    taps+= 1
+    "Update mark and hidden tiles based on tap."
+    
+    spot = index(x, y) # Retorna el indice correspondiente a (x,y) en tiles[spot]
+    mark = state['mark'] # saca el valor de state - al inicio es None
+
+    """Si mark es None o si mark == spot, el usuario dio click en la misma
+    carta al indice sobre el cual el usuario dio click
+    o si la carta que ya esta marcada es diferente de la seleccionada"""
+    if mark is None or mark == spot or tiles[mark] != tiles[spot]:
+        state['mark'] = spot # el estado ahora cambia a la carta donde el usuario dio click
+    else:
+        hide[spot] = False # Quiere decir que son pares - las hace visibles
+        hide[mark] = False 
+        state['mark'] = None # vuelve mark a None - que no tenemos una carta visible
+
+"Función Draw"
+def draw():
+    "Draw image and tiles."
+    clear() # Limpia toda la ventana
+    goto(0, 0) # mueve el turtle (flecha) a la posición (0,0)
+    shape(car) # Carga la imagen del auto en el turtle shape
+    
+    """Stamp hace dibujar el centro de la imagen (foto) y
+    se pone en la coordenada donde esta la Turtle"""
+    stamp() 
+
+    # Dibuja las 64 cartas del memorama (tapando la imagen del auto).
+    # Inicialmente todas las cartas estan escondidas, por eso tapana al auto
+    #clicks=0
+    contador = 0
+    for count in range(64):
+        # Si todavia no esta descubierta la carta su valor sera True
+        if hide[count]:
+            # calcula su equivalencia en el tablero, igual que en pacman
+            x, y = xy(count)
+            # dibuja un square en la posición (x , y) - esquina inf. izq.
+            square(x, y)
+            # Dibuja el valor de la casilla
+            # write(f'{count}', font=("Arial", 30, "normal"))
+            # cuenta la cantidad de cartas escondidas
+            contador = contador + 1
+        #clicks+=1
+        #print(clicks)
+        
+        
+        # Que pasa si hide[count]==False?
+        # No lo dibuja
+        
+    """ Que almacena state ?
+    None - significa que no hay carta visible
+    #### - index de la carta visible"""
+    mark = state['mark']
+
+
+    "Este if else despliega la carta donde se dio el click siempre y cuando no este visible"
+    # Si el estado no es None y esa carta no esta descubierta 
+    if (mark is not None) and hide[mark] == True:
+        # Calcula la posición x,y de la carta
+        x, y = xy(mark)
+        # levanta el lapiz
+        up()
+        # mueve el turtle a la posición x+2, y
+        goto(x + 2, y)
+        # cambia el color del lapiz a negro
+        color('black')
+        # despliega en esa posición x + 2, y el numero de la carta oculta
+        write(tiles[mark], font=('Arial', 30, 'normal'))
+
+    # Verificar si ya logro encontrar todos los pares
+    # La función lista.count() cuenta la cantidad de veces que se repite un valor en la lista
+    escondidas = hide.count(True)
+    print("Sin encontrar=", escondidas) # Este es mejor
+    # print("Sin encontrar contador=", contador)
+    
+    "If else para decir cuando ganamos"
+    if escondidas == 0:
+        up()
+        goto(-112,130)
+        color("white")
+        write("GANASTE UN AUTO", font=("Arial", 15, "normal"))
+        goto(-85,110)
+        color("yellow")
+        write("¡FELICIDADES!", font=("Arial", 15, "normal"))
+        goto(-70,-180)
+        color('white')
+        write(f'Hiciste {taps} taps!',font=("Arial",15,'normal'))
+        nombres()
+        return
+        
+    update() #Muestra en la ventana lo dibujado
+    ontimer(draw, 100) #vuelve a llamar a la funcion draw en 100 milisegundos
+
+def nombres():
+    writer.up()
+    writer.goto(-100,170)
+    writer.color('white')
+    writer.write('IVÁN GUTIÉRREZ', font=('Arial',15,'normal'))
+    writer.goto(-100,150)
+    writer.color('white')
+    writer.write('ABRAHAM MORA', font=('Arial',15,'normal'))
+    
+#shuffle(tiles) #Revolver las cartas del memorama  QUITAR CUANDO SE HAGA VIDEO
+setup(420, 420, 370, 0) #Limites de la ventana
+addshape(car) # Para capturar aqui el car.gif como foto
+hideturtle() #Ocultar la flecha
+tracer(False) # Ocultar el rastro, camino
+onscreenclick(tap) #tap es la función que atiende al evento. Detectar eventos de click
+nombres()
+draw()
+done()
