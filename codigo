@@ -1,11 +1,17 @@
-"Iván Gutiérrez Hernández"
-"A00827382"
-"Abraham Mora"
-"A01067621"
+'''
+Iván Gutiérrez Hernández: Aprendí a desarrollar y mejorar mi pensamiento computacional.
+Este código representó todo lo aprendido durante la semana en sus aplicaciones, se documentó todo el proceso
+con la ayuda de nuestra profesora. Descubrimos un nuevo elemento del paquete freegames llamado path;
+el cual nos permite abrir archivos de imagen dentro de la documentación del paquete.
+Finalmente, se siguieron trabajando con los vectores en 2D para especificar posiciones, paquete de turtle
+random y freegames.
 
-"Reflexión - que aprendieron?"
+ABRAHAM MORA
+
+URL DEL VIDEO: https://github.com/Ivan-152/memorama.git
 
 "Fecha - 7 - Mayo - 2021"
+'''
 
 
 from random import *
