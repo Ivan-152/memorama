@@ -6,12 +6,13 @@ el cual nos permite abrir archivos de imagen dentro de la documentación del paq
 Finalmente, se siguieron trabajando con los vectores en 2D para especificar posiciones, paquete de turtle
 random y freegames.
 
-Abraham Mora: Pude comprender de mejor manera el lenguaje de programación de Python. A pesar de haber sido retador y muy cansado en mi parecer la parte
+ABRAHAM MORA: Pude comprender de mejor manera el lenguaje de programación de Python. A pesar de haber sido retador y muy cansado en mi parecer la parte
 de estar checando cual codigo converge de mejor manera para poder cumplir con las partes, pude practicar una rama que considero universal en el mundo 
 de la ingenieria. En este codigo me siento satisfecho de poder dar con una solución aceptable en la parte de relacionar dos nombres completamente distintos,
 lo cual se requirió hacer ligeros cambios como listas y más condiciones if else para el memorama, hasta que finalmente se pudo dar con el resultado.
 
 URL DEL VIDEO: https://github.com/Ivan-152/memorama.git
+
 
 "Fecha - 7 - Mayo - 2021"
 '''
