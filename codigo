@@ -6,33 +6,45 @@ el cual nos permite abrir archivos de imagen dentro de la documentación del paq
 Finalmente, se siguieron trabajando con los vectores en 2D para especificar posiciones, paquete de turtle
 random y freegames.
 
-ABRAHAM MORA
+ABRAHAM MORA: Pude comprender de mejor manera el lenguaje de programación de Python. A pesar de haber sido retador y muy cansado en mi parecer la parte
+de estar checando cual codigo converge de mejor manera para poder cumplir con las partes, pude practicar una rama que considero universal en el mundo 
+de la ingenieria. En este codigo me siento satisfecho de poder dar con una solución aceptable en la parte de relacionar dos nombres completamente distintos,
+lo cual se requirió hacer ligeros cambios como listas y más condiciones if else para el memorama, hasta que finalmente se pudo dar con el resultado.
 
 URL DEL VIDEO: https://github.com/Ivan-152/memorama.git
 
+
 "Fecha - 7 - Mayo - 2021"
 '''
-
 
 from random import *
 from turtle import *
 from freegames import path
 
-car = path('car.gif') # Para regresar un gif. Este archivo es parte de la libreria freegames
-tiles = list(range(32))*2 # Es la lista de las cartas para el memorama. Se multiplica por 2 para tener los pares
-tiles = 'A-B-C-D-E-F-G-H-I-J-K-L-M-N-O-P-Q-R-S-T-U-V-W-X-Y-Z-AA-EE-II-OO-UU'
-tiles= tiles.split('-')
-tiles= ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','e','i','o','u']
-tiles= tiles*2
-print(tiles)
-taps=0
-writer= Turtle(visible=False)
+ben = path('ben2.gif') # Para regresar un gif. Este archivo es parte de la libreria freegames
+#tiles = list(range(32)) * 2 # Es la lista de las cartas para el memorama. Se multiplica por 2 para tener los pares
+tiles = ["México", "Ecuador", "Perú", "Bolivia", "Argentina", "Colombia", "Chile", "Brasil", "Estados Unidos", "Canadá",
+         "Jamaica", "Honduras", "Belice", "Guatemala", "Panamá", "Venezuela", "España", "Francia", "Inglaterra", "Alemania",
+         "Rusia", "China", "Japón", "Australia", "India", "Turquia", "Bélgica", "EAU", "Egipto", "Nueva Zelanda", "Kenia", "Botswana",
+         "CDMX", "Quito", "Lima", "Sucre", "Buenos Aires", "Bogotá", "Santiago", "Brasilia", "Washington D.C.","Ottawa",
+         "Kingston", "Tegucigalpa", "Belmopán", "Cd. Guatemala", "Cd. Panamá", "Caracas", "Madrid", "París", "Londres", "Berlín",
+         "Moscú", "Pekín", "Tokio", "Canberra", "Nueva Delhi", "Ankara", "Bruselas", "Abu Dabi", "El Cairo", "Wellington", "Nairobi", "Gaborone"]
+
+#Lista de capitales
+cap = ["CDMX", "Quito", "Lima", "Sucre", "Buenos Aires", "Bogotá", "Santiago", "Brasilia", "Washington D.C.","Ottawa",
+       "Kingston", "Tegucigalpa", "Belmopán", "Cd. Guatemala", "Cd. Panamá", "Caracas", "Madrid", "París", "Londres", "Berlín",
+       "Moscú", "Pekín", "Tokio", "Canberra", "Nueva Delhi", "Ankara", "Bruselas", "Abu Dabi", "El Cairo", "Wellington", "Nairobi", "Gaborone"]
+
+paises=[] #Lista de Paises
+for i in range(32):
+    paises.append(tiles[i])
+    
 
 state = {'mark': None}
 hide = [True] * 64 # Tenemos 64 veces el argumento True, osea, estan escondidas
 
-"Funcion Square"
 
+"Funcion Square"
 def square(x, y):
     "Draw white square with black outline at (x, y)."
     up() # Para levantar el lapiz
@@ -49,7 +61,7 @@ def square(x, y):
 def index(x, y):
     "Convert (x, y) coordinates to tiles index."
     #Retorna el indice correspondiente a (x,y) a una posición de la carta en la lista
-    return int((x + 200) // 50 + ((y + 200) // 50) * 8) 
+    return int((x + 200) // 50 + ((y + 200) // 50) * 8)
 
 "Función xy"
 def xy(count):
@@ -59,40 +71,47 @@ def xy(count):
 
 "Funcion Tap"
 def tap(x, y):
-    global mark, taps
-    
-    #imprime las coordenadas donde se dió el click
-    print(x,y)
-    taps+= 1
     "Update mark and hidden tiles based on tap."
     
     spot = index(x, y) # Retorna el indice correspondiente a (x,y) en tiles[spot]
     mark = state['mark'] # saca el valor de state - al inicio es None
-
+    
+    
     """Si mark es None o si mark == spot, el usuario dio click en la misma
     carta al indice sobre el cual el usuario dio click
     o si la carta que ya esta marcada es diferente de la seleccionada"""
+
     if mark is None or mark == spot or tiles[mark] != tiles[spot]:
         state['mark'] = spot # el estado ahora cambia a la carta donde el usuario dio click
+        print(tiles[mark])
+        print(tiles[spot])
+        
+        if (paises.index(str(tiles[mark])) == cap.index(str(tiles[spot]))) or (cap.index(str(tiles[mark])) == paises.index(str(tiles[spot]))):
+            hide[spot] = False # Quiere decir que son pares - las hace visibles
+            hide[mark] = False 
+            state['mark'] = None # vuelve mark a None - que no tenemos una carta visible
+        
+        else:
+            pass
+
     else:
-        hide[spot] = False # Quiere decir que son pares - las hace visibles
-        hide[mark] = False 
-        state['mark'] = None # vuelve mark a None - que no tenemos una carta visible
+        pass
+    
+    
 
 "Función Draw"
 def draw():
     "Draw image and tiles."
     clear() # Limpia toda la ventana
     goto(0, 0) # mueve el turtle (flecha) a la posición (0,0)
-    shape(car) # Carga la imagen del auto en el turtle shape
+    shape(ben) # Carga la imagen del auto en el turtle shape
     
     """Stamp hace dibujar el centro de la imagen (foto) y
     se pone en la coordenada donde esta la Turtle"""
     stamp() 
 
     # Dibuja las 64 cartas del memorama (tapando la imagen del auto).
-    # Inicialmente todas las cartas estan escondidas, por eso tapana al auto
-    #clicks=0
+    # Inicialmente todas las cartas estan escondidas, por eso tapan al auto
     contador = 0
     for count in range(64):
         # Si todavia no esta descubierta la carta su valor sera True
@@ -105,9 +124,6 @@ def draw():
             # write(f'{count}', font=("Arial", 30, "normal"))
             # cuenta la cantidad de cartas escondidas
             contador = contador + 1
-        #clicks+=1
-        #print(clicks)
-        
         
         # Que pasa si hide[count]==False?
         # No lo dibuja
@@ -135,42 +151,34 @@ def draw():
     # Verificar si ya logro encontrar todos los pares
     # La función lista.count() cuenta la cantidad de veces que se repite un valor en la lista
     escondidas = hide.count(True)
-    print("Sin encontrar=", escondidas) # Este es mejor
-    # print("Sin encontrar contador=", contador)
+    #print("Sin encontrar hide.count(True)=", escondidas) # Este es mejor
+    #print("Sin encontrar contador=", contador)
+
+
     
     "If else para decir cuando ganamos"
     if escondidas == 0:
         up()
-        goto(-112,130)
+        goto(-140,150)
         color("white")
-        write("GANASTE UN AUTO", font=("Arial", 15, "normal"))
-        goto(-85,110)
-        color("yellow")
-        write("¡FELICIDADES!", font=("Arial", 15, "normal"))
-        goto(-70,-180)
-        color('white')
-        write(f'Hiciste {taps} taps!',font=("Arial",15,'normal'))
-        nombres()
+        write("GANASTE UN AUTO", font=("Arial", 30, "normal"))
+        goto(-100,100)
+        color("white")
+        write("¡FELICIDADES!", font=("Arial", 30, "normal"))
         return
-        
+               
+
     update() #Muestra en la ventana lo dibujado
     ontimer(draw, 100) #vuelve a llamar a la funcion draw en 100 milisegundos
 
-def nombres():
-    writer.up()
-    writer.goto(-100,170)
-    writer.color('white')
-    writer.write('IVÁN GUTIÉRREZ', font=('Arial',15,'normal'))
-    writer.goto(-100,150)
-    writer.color('white')
-    writer.write('ABRAHAM MORA', font=('Arial',15,'normal'))
-    
-#shuffle(tiles) #Revolver las cartas del memorama  QUITAR CUANDO SE HAGA VIDEO
-setup(420, 420, 370, 0) #Limites de la ventana
-addshape(car) # Para capturar aqui el car.gif como foto
+
+
+shuffle(tiles) #Revolver las cartas del memorama (Quitar para video)
+setup(410, 400, 370, 0) #Limites de la ventana
+addshape(ben) # Para capturar aqui el teatro.gif como foto
 hideturtle() #Ocultar la flecha
 tracer(False) # Ocultar el rastro, camino
 onscreenclick(tap) #tap es la función que atiende al evento. Detectar eventos de click
-nombres()
 draw()
 done()
+
