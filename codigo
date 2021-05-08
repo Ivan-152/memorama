@@ -50,7 +50,7 @@ def square(x, y):
     up() # Para levantar el lapiz
     goto(x, y) # El lapiz se va a esa posición
     down() # Empezar a dibujar
-    color('black', 'white') #Colores
+    color('white', 'green') #Colores
     begin_fill() #Decimos desde aqui que queremos rellenar
     for count in range(4): #Para hacer las cartas
         forward(50)
@@ -142,11 +142,11 @@ def draw():
         # levanta el lapiz
         up()
         # mueve el turtle a la posición x+2, y
-        goto(x + 2, y)
+        goto(x + 2, y+20)
         # cambia el color del lapiz a negro
-        color('black')
-        # despliega en esa posición x + 2, y el numero de la carta oculta
-        write(tiles[mark], font=('Arial', 30, 'normal'))
+        color('white')
+        # despliega en esa posición x + 2, y el valor de la carta oculta
+        write(tiles[mark], align= "left", font=('Arial', 10, 'normal'))
 
     # Verificar si ya logro encontrar todos los pares
     # La función lista.count() cuenta la cantidad de veces que se repite un valor en la lista
@@ -161,7 +161,7 @@ def draw():
         up()
         goto(-140,150)
         color("white")
-        write("GANASTE UN AUTO", font=("Arial", 30, "normal"))
+        write("¡HAS GANADO!", font=("Arial", 30, "normal"))
         goto(-100,100)
         color("white")
         write("¡FELICIDADES!", font=("Arial", 30, "normal"))
